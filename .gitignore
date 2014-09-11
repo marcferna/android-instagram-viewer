@@ -27,3 +27,6 @@ proguard/
 
 # OSX Specific Files
 .DS_Store
+
+# Android Studio
+.idea
