@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.marcferna.instagramclient.InstagramClient;
+
 
 public class PhotosActivity extends Activity {
 
@@ -12,6 +14,8 @@ public class PhotosActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_photos);
+    InstagramClient client = new InstagramClient("53ffa3808b744761ab55756cf6d2e39f");
+    client.fetchPopularPhotos();
   }
 
 
