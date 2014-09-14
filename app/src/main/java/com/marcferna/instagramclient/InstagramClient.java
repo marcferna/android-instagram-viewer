@@ -1,15 +1,16 @@
 package com.marcferna.instagramclient;
 
-import android.util.Log;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.marcferna.models.InstagramPhoto;
+import com.marcferna.models.instagramphoto.InstagramPhoto;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  * Created by marc on 9/11/14.
@@ -26,26 +27,17 @@ public class InstagramClient {
     client = new AsyncHttpClient();
   }
 
-  public void fetchPopularPhotos() {
+  private String generateUrl(String baseUrl) {
+    return baseUrl + "?client_id=" + instagramClientId;
+  }
+
+  public void fetchPopularPhotos(final Object object, final Method method) {
     client.get(generateUrl(popularPhotosUrl), new JsonHttpResponseHandler() {
       @Override
       public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        Log.i("INFO", response.toString());
-        JSONArray photosJSONArray = null;
         try {
-          photosJSONArray = response.getJSONArray("data");
-          for (int i = 0; i < photosJSONArray.length(); i++) {
-            JSONObject photoJSON = photosJSONArray.getJSONObject(i);
-            InstagramPhoto photo = new InstagramPhoto();
-            photo.username = photoJSON.getJSONObject("user").getString("username");
-            photo.caption = photoJSON.getJSONObject("caption").getString("text");
-            JSONObject standardResolutionImage = photoJSON.getJSONObject("images").getJSONObject("standard_resolution");
-            photo.url = standardResolutionImage.getString("url");
-            photo.height = standardResolutionImage.getInt("height");
-            photo.likesCount = photoJSON.getJSONObject("likes").getInt("count");
-
-          }
-        } catch (JSONException e) {
+          method.invoke(object, statusCode, headers, response);
+        } catch(Exception e) {
           e.printStackTrace();
         }
       }
@@ -57,7 +49,34 @@ public class InstagramClient {
     });
   }
 
-  private String generateUrl(String baseUrl) {
-    return baseUrl + "?client_id=" + instagramClientId;
+  public ArrayList<InstagramPhoto> parseJSONResponse(JSONObject response) {
+    ArrayList<InstagramPhoto> photos = new ArrayList<InstagramPhoto>();
+    JSONArray photosJSONArray;
+    try {
+      photosJSONArray = response.getJSONArray("data");
+      for (int i = 0; i < photosJSONArray.length(); i++) {
+        try {
+          JSONObject photoJSON = photosJSONArray.getJSONObject(i);
+          InstagramPhoto photo = new InstagramPhoto();
+          photo.username = photoJSON.getJSONObject("user").getString("username");
+
+          if (photoJSON.has("caption")) {
+            photo.caption = photoJSON.getJSONObject("caption").getString("text");
+          }
+
+          JSONObject standardResolutionImage = photoJSON.getJSONObject("images").getJSONObject("standard_resolution");
+          photo.url = standardResolutionImage.getString("url");
+          photo.height = standardResolutionImage.getInt("height");
+          photo.likesCount = photoJSON.getJSONObject("likes").getInt("count");
+
+          photos.add(photo);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    return photos;
   }
 }
