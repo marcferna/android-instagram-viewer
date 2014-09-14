@@ -7,10 +7,29 @@
   <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:id="@+id/imgAvatar"
+    android:src="@drawable/ic_launcher"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/default_username"
+    android:id="@+id/tvUsername"
+    android:layout_alignParentTop="true"
+    android:layout_toRightOf="@+id/imgAvatar"
+    android:layout_toEndOf="@+id/imgAvatar"/>
+
+  <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:scaleType="centerCrop"
     android:adjustViewBounds="true"
     android:id="@+id/imgPhoto"
-    android:layout_alignParentTop="true"
+    android:src="@drawable/ic_launcher"
+    android:layout_below="@+id/imgAvatar"
     android:layout_alignParentLeft="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentStart="true"/>

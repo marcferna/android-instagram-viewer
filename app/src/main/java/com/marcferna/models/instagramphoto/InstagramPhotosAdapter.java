@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.marcferna.instagramviewer.R;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
@@ -34,16 +32,26 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_photo, parent, false);
     }
 
-    TextView tvCaption = (TextView)convertView.findViewById(R.id.tvCaption);
+    ImageView imgAvatar = (ImageView)convertView.findViewById(R.id.imgAvatar);
+    TextView tvUsername = (TextView)convertView.findViewById(R.id.tvUsername);
     ImageView imgPhoto = (ImageView)convertView.findViewById(R.id.imgPhoto);
     TextView tvLikeCount = (TextView)convertView.findViewById(R.id.tvLikeCount);
+    TextView tvCaption = (TextView)convertView.findViewById(R.id.tvCaption);
 
-    tvCaption.setText(Html.fromHtml("<b>" + photo.username + "</b> " + photo.caption));
-    tvLikeCount.setText(Integer.toString(photo.likesCount) + " likes");
+    tvUsername.setText(photo.username);
+
+    // clears the image in case is a recycled view
+    imgAvatar.setImageResource(0);
+    Picasso.with(getContext()).load(photo.avatarUrl).into(imgAvatar);
+
     imgPhoto.getLayoutParams().height = photo.height;
     // clears the image in case is a recycled view
     imgPhoto.setImageResource(0);
     Picasso.with(getContext()).load(photo.url).into(imgPhoto);
+
+    tvCaption.setText(Html.fromHtml("<b>" + photo.username + "</b> " + photo.caption));
+
+    tvLikeCount.setText(Integer.toString(photo.likesCount) + " likes");
 
     return convertView;
   }

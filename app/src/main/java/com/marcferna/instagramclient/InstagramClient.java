@@ -58,7 +58,10 @@ public class InstagramClient {
         try {
           JSONObject photoJSON = photosJSONArray.getJSONObject(i);
           InstagramPhoto photo = new InstagramPhoto();
-          photo.username = photoJSON.getJSONObject("user").getString("username");
+
+          JSONObject user = photoJSON.getJSONObject("user");
+          photo.username = user.getString("username");
+          photo.avatarUrl = user.getString("profile_picture");
 
           if (photoJSON.has("caption")) {
             photo.caption = photoJSON.getJSONObject("caption").getString("text");
