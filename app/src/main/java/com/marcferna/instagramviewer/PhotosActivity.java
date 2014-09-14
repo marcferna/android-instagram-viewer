@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.marcferna.extensions.SwipeRefreshLayoutCustom;
 import com.marcferna.instagramclient.InstagramClient;
 import com.marcferna.models.instagramphoto.InstagramPhoto;
 import com.marcferna.models.instagramphoto.InstagramPhotosAdapter;
@@ -18,6 +19,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 
+
 public class PhotosActivity extends Activity {
   public static String instagramClientId = "53ffa3808b744761ab55756cf6d2e39f";
   private ArrayList<InstagramPhoto> photos = new ArrayList<InstagramPhoto>();
@@ -25,11 +27,28 @@ public class PhotosActivity extends Activity {
 
   private InstagramPhotosAdapter adapterPhotos;
 
+  private SwipeRefreshLayoutCustom swipeContainer;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_photos);
+    swipeContainer = (SwipeRefreshLayoutCustom) findViewById(R.id.swipeContainer);
+    this.configureSwipeContainer();
     client = new InstagramClient(instagramClientId);
+    this.fetch();
+  }
+
+  private void configureSwipeContainer() {
+    swipeContainer.setOnRefreshListener(new SwipeRefreshLayoutCustom.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        PhotosActivity.this.fetch();
+      }
+    });
+  }
+
+  private void fetch() {
     try {
       Class[] parameterTypes = new Class[3];
       parameterTypes[0] = int.class;
@@ -40,7 +59,6 @@ public class PhotosActivity extends Activity {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 
   @SuppressWarnings("unused")
@@ -48,6 +66,7 @@ public class PhotosActivity extends Activity {
     JSONArray photosJSONArray;
     photos.clear();
     photos = client.parseJSONResponse(response);
+    swipeContainer.setRefreshing(false);
     this.populatePhotosListView();
   }
 
