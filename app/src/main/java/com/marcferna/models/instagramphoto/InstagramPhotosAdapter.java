@@ -1,10 +1,13 @@
 package com.marcferna.models.instagramphoto;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.text.Html;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,7 +47,12 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     imgAvatar.setImageResource(0);
     Picasso.with(getContext()).load(photo.avatarUrl).into(imgAvatar);
 
-    imgPhoto.getLayoutParams().height = photo.height;
+    WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+    Display display = windowManager.getDefaultDisplay();
+    Point windowSize = new Point();
+    display.getSize(windowSize);
+    imgPhoto.getLayoutParams().height = windowSize.x;
+
     // clears the image in case is a recycled view
     imgPhoto.setImageResource(0);
     Picasso.with(getContext()).load(photo.url).into(imgPhoto);
