@@ -7,5 +7,7 @@
   <string name="caption_default_text">This is a default caption</string>
   <string name="default_like_count">Likes</string>
   <string name="default_username">Username</string>
+  <string name="default_location">Location</string>
+  <string name="default_time_ago">2w</string>
 
 </resources>

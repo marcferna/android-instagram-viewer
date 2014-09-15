@@ -4,24 +4,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-  <com.marcferna.extensions.ImageViewRound
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/imgAvatar"
-    android:src="@drawable/ic_launcher"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"/>
-
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/default_username"
-    android:id="@+id/tvUsername"
-    android:layout_alignParentTop="true"
-    android:layout_toRightOf="@+id/imgAvatar"
-    android:layout_toEndOf="@+id/imgAvatar"/>
-
   <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -29,7 +11,6 @@
     android:adjustViewBounds="true"
     android:id="@+id/imgPhoto"
     android:src="@drawable/ic_launcher"
-    android:layout_below="@+id/imgAvatar"
     android:layout_alignParentLeft="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentStart="true"/>
@@ -51,6 +32,14 @@
     android:text="@string/caption_default_text"
     android:id="@+id/tvCaption"
     android:layout_below="@+id/tvLikeCount"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"/>
+
+  <include
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    layout="@layout/item_photo_header"
+    android:layout_alignParentTop="true"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"/>
 
