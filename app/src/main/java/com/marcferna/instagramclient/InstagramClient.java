@@ -63,6 +63,8 @@ public class InstagramClient {
           photo.username = user.getString("username");
           photo.avatarUrl = user.getString("profile_picture");
 
+          photo.createdTimestamp = photoJSON.getLong("created_time");
+
           if (photoJSON.has("caption")) {
             photo.caption = photoJSON.getJSONObject("caption").getString("text");
           }
