@@ -3,6 +3,7 @@ package com.marcferna.instagramclient;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.marcferna.models.instagramphoto.InstagramPhoto;
+import com.marcferna.models.instagramphoto.comment.Comment;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -69,6 +70,11 @@ public class InstagramClient {
             photo.caption = photoJSON.getJSONObject("caption").getString("text");
           }
 
+          JSONObject commentsJSONObject = photoJSON.getJSONObject("comments");
+          if (commentsJSONObject != null && commentsJSONObject.getJSONArray("data") != null) {
+            photo.comments = parseCommentsJSONArray(commentsJSONObject.getJSONArray("data"));
+          }
+
           JSONObject standardResolutionImage = photoJSON.getJSONObject("images").getJSONObject("standard_resolution");
           photo.url = standardResolutionImage.getString("url");
           photo.height = standardResolutionImage.getInt("height");
@@ -83,5 +89,20 @@ public class InstagramClient {
       e.printStackTrace();
     }
     return photos;
+  }
+
+  private ArrayList<Comment> parseCommentsJSONArray(JSONArray commentsJSONArray) {
+    ArrayList<Comment> comments = new ArrayList<Comment>(20);
+    for (int i = 0; i < commentsJSONArray.length(); i++) {
+      try {
+        String username = ((JSONObject) commentsJSONArray.get(i)).getJSONObject("from").getString("username");
+        String text = ((JSONObject) commentsJSONArray.get(i)).getString("text");
+        Comment comment = new Comment(username, text);
+        comments.add(comment);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    return comments;
   }
 }
