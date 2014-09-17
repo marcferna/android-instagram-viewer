@@ -66,12 +66,13 @@ public class InstagramClient {
 
           photo.createdTimestamp = photoJSON.getLong("created_time");
 
-          if (photoJSON.has("caption")) {
+          JSONObject caption = photoJSON.optJSONObject("caption");
+          if (caption != null) {
             photo.caption = photoJSON.getJSONObject("caption").getString("text");
           }
 
-          JSONObject commentsJSONObject = photoJSON.getJSONObject("comments");
-          if (commentsJSONObject != null && commentsJSONObject.getJSONArray("data") != null) {
+          JSONObject commentsJSONObject = photoJSON.optJSONObject("comments");
+          if (commentsJSONObject != null && commentsJSONObject.optJSONArray("data") != null) {
             photo.comments = parseCommentsJSONArray(commentsJSONObject.getJSONArray("data"));
           }
 

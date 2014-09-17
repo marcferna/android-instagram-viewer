@@ -11,12 +11,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.marcferna.instagramviewer.R;
+import com.marcferna.models.instagramphoto.comment.Comment;
+import com.marcferna.models.instagramphoto.comment.CommentAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -45,6 +49,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     ImageView imgPhoto = (ImageView)convertView.findViewById(R.id.imgPhoto);
     TextView tvLikeCount = (TextView)convertView.findViewById(R.id.tvLikeCount);
     TextView tvCaption = (TextView)convertView.findViewById(R.id.tvCaption);
+    ListView lvComments = (ListView)convertView.findViewById(R.id.lvComments);
 
     tvUsername.setText(photo.username);
 
@@ -65,9 +70,26 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     imgPhoto.setImageResource(0);
     Picasso.with(getContext()).load(photo.url).into(imgPhoto);
 
+    tvLikeCount.setText(Integer.toString(photo.likesCount) + " likes");
     tvCaption.setText(Html.fromHtml("<b>" + photo.username + "</b> " + photo.caption));
 
-    tvLikeCount.setText(Integer.toString(photo.likesCount) + " likes");
+
+    // TODO: Clean this up - Subclass the type of ListView
+    CommentAdapter commentAdapter = new CommentAdapter(getContext(), new ArrayList<Comment>(photo.comments.subList(0, Math.min(photo.comments.size(), 2))));
+    lvComments.setAdapter(commentAdapter);
+    lvComments.setScrollContainer(false);
+    int totalHeight = 0;
+    for (int i = 0, length = commentAdapter.getCount(); i < length; i++) {
+      View listItem = commentAdapter.getView(i, null, lvComments);
+      listItem.measure(0, 0);
+      totalHeight += listItem.getMeasuredHeight();
+    }
+
+    ViewGroup.LayoutParams params = lvComments.getLayoutParams();
+    params.height = totalHeight
+                        + (lvComments.getDividerHeight() * (commentAdapter.getCount() - 1));
+    lvComments.setLayoutParams(params);
+    commentAdapter.notifyDataSetChanged();
 
     return convertView;
   }
