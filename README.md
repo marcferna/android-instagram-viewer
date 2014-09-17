@@ -7,6 +7,7 @@
 - Graphic, caption, username, last 2 comments, relative timestamp, like count and user profile image displayed for each photo
 - Pull-to-refresh functionality
 - Same photo style and proportions as the real Instagram
+
 (All required, optional and advanced stories completed)
 
 ## Todo
