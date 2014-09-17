@@ -19,6 +19,7 @@ import com.marcferna.models.instagramphoto.comment.Comment;
 import com.marcferna.models.instagramphoto.comment.CommentAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,7 +70,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     imgPhoto.setImageResource(0);
     Picasso.with(getContext()).load(photo.url).into(imgPhoto);
 
-    tvLikeCount.setText(Integer.toString(photo.likesCount) + " likes");
+    tvLikeCount.setText(NumberFormat.getInstance().format(photo.likesCount) + " likes");
 
     // TODO: Clean this up - Subclass the type of ListView
     lvComments.setScrollContainer(false);

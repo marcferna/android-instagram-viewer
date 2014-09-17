@@ -17,7 +17,5 @@
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
     android:clickable="false"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="7dp"/>
-    />
+    android:divider="@android:color/transparent"/>
 </LinearLayout>
