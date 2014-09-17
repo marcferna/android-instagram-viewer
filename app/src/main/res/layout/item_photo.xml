@@ -32,23 +32,15 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"/>
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:maxLines="3"
-    android:ellipsize="end"
-    android:text="@string/caption_default_text"
-    android:id="@+id/tvCaption"
-    android:layout_below="@+id/tvLikeCount"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"/>
-
   <include
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     layout="@layout/comments_list"
-    android:layout_below="@+id/tvCaption"
+    android:layout_below="@+id/tvLikeCount"
     android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"/>
+    android:layout_alignParentStart="true"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

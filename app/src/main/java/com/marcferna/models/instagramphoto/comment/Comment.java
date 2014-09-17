@@ -12,8 +12,4 @@ public class Comment {
     this.username = username;
     this.text = text;
   }
-
-  public String toString(){
-    return this.text;
-  }
 }

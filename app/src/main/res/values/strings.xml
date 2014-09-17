@@ -9,5 +9,6 @@
   <string name="default_username">Username</string>
   <string name="default_location">Location</string>
   <string name="default_time_ago">2w</string>
+  <string name="default_comment_text">Comment</string>
 
 </resources>

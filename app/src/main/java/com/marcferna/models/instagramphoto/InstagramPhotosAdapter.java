@@ -48,7 +48,6 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     TextView tvTimeAgo = (TextView)convertView.findViewById(R.id.tvTimeAgo);
     ImageView imgPhoto = (ImageView)convertView.findViewById(R.id.imgPhoto);
     TextView tvLikeCount = (TextView)convertView.findViewById(R.id.tvLikeCount);
-    TextView tvCaption = (TextView)convertView.findViewById(R.id.tvCaption);
     ListView lvComments = (ListView)convertView.findViewById(R.id.lvComments);
 
     tvUsername.setText(photo.username);
@@ -71,13 +70,16 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     Picasso.with(getContext()).load(photo.url).into(imgPhoto);
 
     tvLikeCount.setText(Integer.toString(photo.likesCount) + " likes");
-    tvCaption.setText(Html.fromHtml("<b>" + photo.username + "</b> " + photo.caption));
-
 
     // TODO: Clean this up - Subclass the type of ListView
-    CommentAdapter commentAdapter = new CommentAdapter(getContext(), new ArrayList<Comment>(photo.comments.subList(0, Math.min(photo.comments.size(), 2))));
-    lvComments.setAdapter(commentAdapter);
     lvComments.setScrollContainer(false);
+    lvComments.addHeaderView(new View(getContext()));
+    lvComments.addFooterView(new View(getContext()));
+    photo.comments.add(0, new Comment(photo.username, photo.caption));
+    int commentsSize = photo.comments.size();
+    CommentAdapter commentAdapter = new CommentAdapter(getContext(), new ArrayList<Comment>(photo.comments.subList(0, Math.min(commentsSize, 3))));
+    lvComments.setAdapter(commentAdapter);
+
     int totalHeight = 0;
     for (int i = 0, length = commentAdapter.getCount(); i < length; i++) {
       View listItem = commentAdapter.getView(i, null, lvComments);
@@ -86,11 +88,9 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     }
 
     ViewGroup.LayoutParams params = lvComments.getLayoutParams();
-    params.height = totalHeight
-                        + (lvComments.getDividerHeight() * (commentAdapter.getCount() - 1));
+    params.height = totalHeight + (lvComments.getDividerHeight() * (commentAdapter.getCount() - 1));
     lvComments.setLayoutParams(params);
     commentAdapter.notifyDataSetChanged();
-
     return convertView;
   }
 }
