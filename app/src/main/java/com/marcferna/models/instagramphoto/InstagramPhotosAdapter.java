@@ -19,10 +19,12 @@ import com.marcferna.models.instagramphoto.comment.Comment;
 import com.marcferna.models.instagramphoto.comment.CommentAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.sql.Time;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -58,7 +60,8 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     Picasso.with(getContext()).load(photo.avatarUrl).into(imgAvatar);
 
     java.util.Date createdAtDate = new java.util.Date(photo.createdTimestamp * 1000);
-    tvTimeAgo.setText(DateUtils.getRelativeDateTimeString(getContext(), createdAtDate.getTime(), DateUtils.SECOND_IN_MILLIS, DateUtils.YEAR_IN_MILLIS, 0));
+    java.util.Date now = new java.util.Date();
+    tvTimeAgo.setText(DateUtils.getRelativeTimeSpanString(createdAtDate.getTime(), now.getTime(), DateUtils.SECOND_IN_MILLIS));
 
     WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
     Display display = windowManager.getDefaultDisplay();

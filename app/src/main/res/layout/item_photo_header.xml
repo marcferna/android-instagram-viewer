@@ -26,23 +26,16 @@
     android:layout_alignTop="@+id/imgAvatar"
     android:layout_toRightOf="@+id/imgAvatar"
     android:layout_marginLeft="10dp"
+    android:layout_marginTop="8dp"
     android:textStyle="bold"
     android:textColor="@color/important"/>
 
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/default_location"
-    android:id="@+id/tvLocation"
-    android:layout_below="@+id/tvUsername"
-    android:layout_alignLeft="@+id/tvUsername"
-    android:layout_alignStart="@+id/tvUsername"/>
-
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     android:text="@string/default_time_ago"
     android:id="@+id/tvTimeAgo"
+    android:layout_marginTop="8dp"
     android:layout_alignParentTop="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"/>
