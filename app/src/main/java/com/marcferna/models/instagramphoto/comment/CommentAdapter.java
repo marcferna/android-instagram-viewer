@@ -38,7 +38,9 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
     }
 
     TextView tvComment = (TextView)convertView.findViewById(R.id.tvComment);
-    tvComment.setText(Html.fromHtml("<b>" + comment.username + "</b> " + comment.text));
+    int сolor = getContext().getResources().getColor(R.color.important);
+    String сolorString = String.format("%X", сolor).substring(2);
+    tvComment.setText(Html.fromHtml("<font color='#" + сolorString + "'><b>" + comment.username + "</b></font> " + comment.text));
     return convertView;
   }
 }
